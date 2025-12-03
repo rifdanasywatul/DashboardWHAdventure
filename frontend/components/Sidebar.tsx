@@ -18,6 +18,8 @@ const Sidebar = () => {
   const pathname = usePathname();
   const [openSales, setOpenSales] = useState(true);
   const [openPurchase, setOpenPurchase] = useState(true);
+  const [openMondrian, setOpenMondrian] = useState(true);
+
 
   const salesItems = [
     {
@@ -53,6 +55,19 @@ const Sidebar = () => {
     },
     { name: "Time Series", href: "/purchase/trends", icon: ClockIcon },
   ];
+
+  const mondrianItems = [
+  {
+    name: "Sales Cube",
+    href: "/olap/sales",
+    icon: CubeIcon,
+  },
+  {
+    name: "Purchasing Cube",
+    href: "/olap/purchasing",
+    icon: CubeIcon,
+  },
+];
 
   return (
     <div className="w-70 bg-indigo-800 text-white fixed top-0 left-0 h-screen p-5 overflow-y-auto">
@@ -127,6 +142,45 @@ const Sidebar = () => {
                   href={item.href}
                   className={`flex items-center gap-3 pl-10 pr-3 py-1.5 rounded hover:bg-indigo-700 transition ${
                     pathname === item.href ? "bg-blue-600" : ""
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+        )}
+      </div>
+
+      {/* MONDRIAN ACCORDION */}
+      <div className="mb-6">
+        <button
+          className="flex justify-between items-center w-full text-left px-3 py-2 font-medium rounded hover:bg-indigo-700"
+          onClick={() => setOpenMondrian(!openMondrian)}
+        >
+          <span className="flex items-center gap-2">Mondrian Cube</span>
+          <svg
+            className={`w-4 h-4 transform transition-transform ${
+              openMondrian ? "rotate-180" : ""
+            }`}
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path stroke="currentColor" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {openMondrian && (
+          <nav className="mt-1 space-y-1">
+            {mondrianItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-3 pl-10 pr-3 py-1.5 rounded hover:bg-indigo-700 transition ${
+                    pathname === item.href ? "bg-indigo-600" : ""
                   }`}
                 >
                   <Icon className="w-5 h-5" />
